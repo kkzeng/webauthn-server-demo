@@ -100,11 +100,6 @@ router.post('/username', (req, res) => {
   }
 });
 
-router.post('/test', (req, res) => {
-  const username = req.body.username;
-  res.json(username);
-});
-
 /**
  * Verifies user credential and let the user sign-in.
  * No preceding registration required.
