@@ -37,8 +37,8 @@ router.use(express.json());
 
 const f2l = new Fido2Lib({
     timeout: 30*1000*60,
-    rpId: process.env.HOSTNAME,
-    rpName: "WebAuthn Codelab",
+    rpId: process.env.HOSTNAME, //'localhost:8080'
+    rpName: "WebAuthn Demo",
     challengeSize: 32,
     cryptoParams: [-7]
 });
@@ -110,6 +110,7 @@ router.post('/password', (req, res) => {
     res.status(401).json({error: 'Enter at least one random letter.'});
     return;
   }
+
   const user = db.get('users')
     .find({ username: req.cookies.username })
     .value();
@@ -227,7 +228,6 @@ router.post('/registerRequest', csrfCheck, sessionCheck, async (req, res) => {
   try {
     const response = await f2l.attestationOptions();
     response.user = {
-      displayName: 'No name',
       id: user.id,
       name: user.username
     };
@@ -244,7 +244,7 @@ router.post('/registerRequest', csrfCheck, sessionCheck, async (req, res) => {
       }
     }
     response.pubKeyCredParams = [];
-    const params = [-7, -257];
+    const params = [-7];
     for (let param of params) {
       response.pubKeyCredParams.push({type:'public-key', alg: param});
     }
