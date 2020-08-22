@@ -1,0 +1,38 @@
+[
+    {
+      "relation": [
+        "delegate_permission/common.handle_all_urls",
+        "delegate_permission/common.get_login_creds"
+      ],
+      "target": {
+        "namespace": "web",
+        "site": "https://http://webauthn-server-demo.herokuapp.com/"
+      }
+    },
+    {
+      "relation": [
+        "delegate_permission/common.handle_all_urls",
+        "delegate_permission/common.get_login_creds"
+      ],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "mojaloop.fido2example",
+        "sha256_cert_fingerprints": [
+          "24:79:67:5E:D6:70:31:0E:7C:66:E6:F6:FF:30:33:C3:F0:E0:F0:62:50:4B:9F:F2:32:68:23:7E:2E:9C:C3:78"
+        ]
+      }
+    },
+    {
+        "relation": [
+          "delegate_permission/common.handle_all_urls",
+          "delegate_permission/common.get_login_creds"
+        ],
+        "target": {
+          "namespace": "android_app",
+          "package_name": "mojaloop.fido2_example_app",
+          "sha256_cert_fingerprints": [
+            "24:79:67:5E:D6:70:31:0E:7C:66:E6:F6:FF:30:33:C3:F0:E0:F0:62:50:4B:9F:F2:32:68:23:7E:2E:9C:C3:78"
+          ]
+        }
+      }
+  ]
