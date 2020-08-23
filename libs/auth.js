@@ -296,6 +296,7 @@ router.post('/registerRequest', csrfCheck, sessionCheck, async (req, res) => {
  * }```
  **/
 router.post('/registerResponse', csrfCheck, sessionCheck, async (req, res) => {
+  console.log(req.cookies);
   const username = req.cookies.username;
   const challenge = coerceToArrayBuffer(req.cookies.challenge, 'challenge');
   const credId = req.body.id;
@@ -314,10 +315,6 @@ router.post('/registerResponse', csrfCheck, sessionCheck, async (req, res) => {
     const octArray = process.env.ANDROID_SHA256HASH.split(':').map(h => parseInt(h, 16));
     const androidHash = coerceToBase64Url(octArray, 'Android Hash');
     const origin = `android:apk-key-hash:${androidHash}`;
-
-    // DEBUG:
-    console.log(origin);
-    console.log(clientAttestationResponse.response.clientDataJSON);
 
     const attestationExpectations = {
       challenge: challenge,
