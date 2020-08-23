@@ -1,0 +1,24 @@
+diff --git a/node_modules/fido2-lib/lib/validator.js b/node_modules/fido2-lib/lib/validator.js
+index 171bdc7..a649e4c 100644
+--- a/node_modules/fido2-lib/lib/validator.js
++++ b/node_modules/fido2-lib/lib/validator.js
+@@ -47,7 +47,7 @@ async function validateExpectations() {
+     if (req.has("origin")) {
+         var expectedOrigin = exp.get("origin");
+ 
+-        checkOrigin(expectedOrigin);
++        // checkOrigin(expectedOrigin);
+     }
+ 
+     // challenge - is valid base64url string
+@@ -210,9 +210,7 @@ async function validateId() {
+ 
+ async function validateOrigin() {
+     var expectedOrigin = this.expectations.get("origin");
+-    var clientDataOrigin = this.clientData.get("origin");
+-
+-    var origin = checkOrigin(clientDataOrigin);
++    var origin = this.clientData.get("origin");
+ 
+     if (origin !== expectedOrigin) {
+         throw new Error("clientData origin did not match expected origin");

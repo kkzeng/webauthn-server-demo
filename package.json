@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "postinstall": "patch-package"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +16,7 @@
     "express": "^4.17.1",
     "fido2-lib": "^2.1.1",
     "hbs": "^4.1.1",
-    "lowdb": "^1.0.0"
+    "lowdb": "^1.0.0",
+    "patch-package": "^6.2.2"
   }
 }
