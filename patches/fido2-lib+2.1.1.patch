@@ -1,3 +1,25 @@
+diff --git a/node_modules/fido2-lib/lib/parser.js b/node_modules/fido2-lib/lib/parser.js
+index dc4b674..6ef9a63 100644
+--- a/node_modules/fido2-lib/lib/parser.js
++++ b/node_modules/fido2-lib/lib/parser.js
+@@ -11,8 +11,6 @@ const {
+     ab2str,
+ } = require("./utils");
+ 
+-// NOTE: throws if origin is https and has port 443
+-// use `new URL(originstr).origin` to create a properly formatted origin
+ function parseExpectations(exp) {
+     if (typeof exp !== "object") {
+         throw new TypeError("expected 'expectations' to be of type object, got " + typeof exp);
+@@ -26,7 +24,7 @@ function parseExpectations(exp) {
+             throw new TypeError("expected 'origin' should be string, got " + typeof exp.origin);
+         }
+ 
+-        let origin = checkOrigin(exp.origin);
++        let origin = exp.origin;
+         ret.set("origin", origin);
+     }
+ 
 diff --git a/node_modules/fido2-lib/lib/validator.js b/node_modules/fido2-lib/lib/validator.js
 index 171bdc7..a649e4c 100644
 --- a/node_modules/fido2-lib/lib/validator.js
