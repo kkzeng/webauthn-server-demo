@@ -310,14 +310,14 @@ router.post('/registerResponse', csrfCheck, sessionCheck, async (req, res) => {
     clientAttestationResponse.response.attestationObject =
       coerceToArrayBuffer(req.body.response.attestationObject, "attestationObject");
 
-    let origin = '';
-    if (req.get('User-Agent').indexOf('okhttp') > -1) {
-      const octArray = process.env.ANDROID_SHA256HASH.split(':').map(h => parseInt(h, 16));
-      const androidHash = coerceToBase64Url(octArray, 'Android Hash');
-      origin = `android:apk-key-hash:${androidHash}`; // TODO: Generate
-    } else {
-      origin = `https://${req.get('host')}`;
-    }
+
+    const octArray = process.env.ANDROID_SHA256HASH.split(':').map(h => parseInt(h, 16));
+    const androidHash = coerceToBase64Url(octArray, 'Android Hash');
+    const origin = `android:apk-key-hash:${androidHash}`;
+
+    // DEBUG:
+    console.log(origin);
+    console.log(clientAttestationResponse.response.clientDataJSON);
 
     const attestationExpectations = {
       challenge: challenge,
