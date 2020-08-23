@@ -20,6 +20,19 @@ index dc4b674..6ef9a63 100644
          ret.set("origin", origin);
      }
  
+diff --git a/node_modules/fido2-lib/lib/response.js b/node_modules/fido2-lib/lib/response.js
+index 95e5d81..5818e6e 100644
+--- a/node_modules/fido2-lib/lib/response.js
++++ b/node_modules/fido2-lib/lib/response.js
+@@ -42,7 +42,7 @@ class Fido2Result {
+ 
+         // authenticatorData, minus attestation
+         await this.validateRawAuthnrData();
+-        await this.validateRpIdHash();
++        // await this.validateRpIdHash(); - this checks if origin of the signing is the RP (not always true)
+         await this.validateFlags();
+     }
+ 
 diff --git a/node_modules/fido2-lib/lib/validator.js b/node_modules/fido2-lib/lib/validator.js
 index 171bdc7..a649e4c 100644
 --- a/node_modules/fido2-lib/lib/validator.js
