@@ -296,7 +296,7 @@ router.post('/registerRequest', csrfCheck, sessionCheck, async (req, res) => {
  * }```
  **/
 router.post('/registerResponse', csrfCheck, sessionCheck, async (req, res) => {
-  console.log(req.cookies);
+  console.log('Challenge: ' + req.cookies.challenge);
   const username = req.cookies.username;
   const challenge = coerceToArrayBuffer(req.cookies.challenge, 'challenge');
   const credId = req.body.id;
@@ -366,7 +366,7 @@ router.post('/registerResponse', csrfCheck, sessionCheck, async (req, res) => {
      }, ...]
  * }```
  **/
-router.post('/signinRequest', csrfCheck, async (req, res) => {
+router.post('/signingRequest', csrfCheck, async (req, res) => {
   try {
     const user = db.get('users')
       .find({ username: req.cookies.username })
@@ -420,7 +420,9 @@ router.post('/signinRequest', csrfCheck, async (req, res) => {
      }
  * }```
  **/
-router.post('/signinResponse', csrfCheck, async (req, res) => {
+router.post('/signingResponse', csrfCheck, async (req, res) => {
+  console.log('REQ: ' + req.body);
+
   // Query the user
   const user = db.get('users')
     .find({ username: req.cookies.username })
@@ -439,7 +441,12 @@ router.post('/signinResponse', csrfCheck, async (req, res) => {
     }
 
     const challenge = coerceToArrayBuffer(req.cookies.challenge, 'challenge');
-    const origin = `https://${req.get('host')}`; // TODO: Temporary work around for scheme
+
+    const octArray = process.env.ANDROID_SHA256HASH.split(':').map(h => parseInt(h, 16));
+    const androidHash = coerceToBase64Url(octArray, 'Android Hash');
+    const origin = `android:apk-key-hash:${androidHash}`;
+
+    console.log('DEBUG: ' + origin + ' ' + challenge);
 
     const clientAssertionResponse = { response: {} };
     clientAssertionResponse.rawId =
@@ -460,6 +467,9 @@ router.post('/signinResponse', csrfCheck, async (req, res) => {
       prevCounter: credential.prevCounter,
       userHandle: coerceToArrayBuffer(user.id, 'userHandle')
     };
+
+    console.log('reached');
+    
     const result = await f2l.assertionResult(clientAssertionResponse, assertionExpectations);
 
     credential.prevCounter = result.authnrData.get("counter");
