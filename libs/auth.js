@@ -421,7 +421,6 @@ router.post('/signingRequest', csrfCheck, async (req, res) => {
  * }```
  **/
 router.post('/signingResponse', csrfCheck, async (req, res) => {
-  console.log('REQ: ' + req.body);
 
   // Query the user
   const user = db.get('users')
@@ -446,8 +445,6 @@ router.post('/signingResponse', csrfCheck, async (req, res) => {
     const androidHash = coerceToBase64Url(octArray, 'Android Hash');
     const origin = `android:apk-key-hash:${androidHash}`;
 
-    console.log('DEBUG: ' + origin + ' ' + challenge);
-
     const clientAssertionResponse = { response: {} };
     clientAssertionResponse.rawId =
       coerceToArrayBuffer(req.body.rawId, "rawId");
@@ -467,8 +464,6 @@ router.post('/signingResponse', csrfCheck, async (req, res) => {
       prevCounter: credential.prevCounter,
       userHandle: coerceToArrayBuffer(user.id, 'userHandle')
     };
-
-    console.log('reached');
     
     const result = await f2l.assertionResult(clientAssertionResponse, assertionExpectations);
 
