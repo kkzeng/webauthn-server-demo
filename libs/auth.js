@@ -74,6 +74,7 @@ const sessionCheck = (req, res, next) => {
 router.post('/username', (req, res) => {
   const username = req.body.username;
   // Only check username, no need to check password as this is a mock
+  console.log('Logging in user: ' + username);
   if (!username) {
     res.status(400).send({ error: 'Bad request' });
     return;
@@ -273,7 +274,7 @@ router.post('/registerRequest', csrfCheck, sessionCheck, async (req, res) => {
     if (cp && (cp == 'none' || cp == 'indirect' || cp == 'direct')) {
       response.attestation = cp;
     }
-
+    console.log('registratonOptions: ' + response);
     res.json(response);
   } catch (e) {
     res.status(400).send({ error: e });
@@ -296,7 +297,7 @@ router.post('/registerRequest', csrfCheck, sessionCheck, async (req, res) => {
  * }```
  **/
 router.post('/registerResponse', csrfCheck, sessionCheck, async (req, res) => {
-  console.log('Challenge: ' + req.cookies.challenge);
+  console.log('Registration - authenticator results: ' + req.body);
   const username = req.cookies.username;
   const challenge = coerceToArrayBuffer(req.cookies.challenge, 'challenge');
   const credId = req.body.id;
@@ -398,7 +399,7 @@ router.post('/signingRequest', csrfCheck, async (req, res) => {
         });
       }
     }
-
+    console.log('signingOptions: ' + response);
     res.json(response);
   } catch (e) {
     res.status(400).json({ error: e });
@@ -421,7 +422,7 @@ router.post('/signingRequest', csrfCheck, async (req, res) => {
  * }```
  **/
 router.post('/signingResponse', csrfCheck, async (req, res) => {
-
+  console.log('Signing - authenticator results: ' + req.body);
   // Query the user
   const user = db.get('users')
     .find({ username: req.cookies.username })
